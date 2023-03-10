@@ -1,18 +1,44 @@
 <p style="color: green"><%= notice %></p>
 
-<h1>Posts</h1>
-<% if  user_signed_in? %>
-  <%= link_to current_user.email, edit_user_registration_path %>
-  <%= button_to "Logout", destroy_user_session_path, method: :delete, data: {turbo_method: :delete}, class: "button is-danger" %>
+<h1 class="title">Posts</h1> <div class="is-flex is-justify-content-space-between mb-4">
 
-<% end %>
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-    <%= link_to "Show this post", post %>
-    </p>
+  <%= link_to "New post", new_post_path, class: "button is-primary" %>
+
+  <% if  user_signed_in? %>
+    <%= link_to current_user.email, edit_user_registration_path, class: "title is-4" %>
+    <%= button_to "Logout", destroy_user_session_path, method: :delete, data: {turbo_method: :delete}, class: "button is-danger" %>
+    <br>
+    Plan :
+    <%= current_user.plan %>
+    <br>
+    subscription_status : 
+    <%= current_user.subscription_status %>
+
   <% end %>
-</div>
 
-<%= link_to "New post", new_post_path, class: "button is-primary" %>
+
+
+
+</div>
+<table class="table is-striped">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th>Premium</th>
+      <th>Status</th>
+    </tr>
+
+  </thead> 
+  <tbody>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.title %></td>
+        <td><%= post.content %></td>
+        <td><%= post.premium %></td>
+        <td><%= link_to "show", post_path(post) %></td>
+      </tr>
+    <% end %>
+
+  </tbody>
+</table>
